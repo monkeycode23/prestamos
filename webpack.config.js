@@ -28,6 +28,11 @@ module.exports = {
   // Reglas para procesar diferentes tipos de archivos
   module: {
     rules: [
+      {
+        test: /\.(ts|tsx)$/, // Agrega esta regla para TypeScript
+        exclude: /node_modules/,
+        use: 'ts-loader' // Usa ts-loader para TypeScript
+      },
       // Regla para archivos JavaScript/JSX
       {
         test: /\.(js|mjs|jsx)$/,
@@ -61,7 +66,7 @@ module.exports = {
 
   // Extensiones que webpack debe resolver automáticamente
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx','.ts', '.tsx']
   },
 
   // Plugins

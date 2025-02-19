@@ -1,10 +1,11 @@
 {
     "appId": "com.presta.app",
-    "productName": "PrestaApp",
+    "productName": "PrestamosApp",
     "publish": [{
       "provider": "github",
       "owner": "monkeycode23",
-      "repo": "loans"
+      "repo": "loans",
+      "releaseType": "draft" 
     }],
     
     "directories": {
@@ -13,7 +14,8 @@
     "files": [
         "dist/**/*",
         "src/main/**/*",
-      "package.json"
+      "package.json",
+      "app-update.yml"
     ],
     "extraResources": [
       {
