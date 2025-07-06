@@ -1,0 +1,62 @@
+drop table if exists stats;
+
+CREATE TABLE IF NOT EXISTS stats (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    total_users INTEGER DEFAULT 0,
+    total_clients INTEGER DEFAULT 0,
+    total_loans INTEGER DEFAULT 0,
+    total_payments INTEGER DEFAULT 0,
+    activity_count INTEGER DEFAULT 0
+   
+);
+
+
+
+--insert into stats (total_users, total_clients, total_loans, total_payments, activity_count) values (0, 0, 0, 0, 0);
+
+
+-- clients
+CREATE TRIGGER IF NOT EXISTS total_clients_insert AFTER INSERT ON clients BEGIN
+    UPDATE stats SET total_clients = total_clients + 1 WHERE id = 1;
+END;
+
+CREATE TRIGGER IF NOT EXISTS total_clients_delete AFTER DELETE ON clients BEGIN
+    UPDATE stats SET total_clients = total_clients - 1 WHERE id = 1;
+END;
+
+-- users
+CREATE TRIGGER IF NOT EXISTS total_users_insert AFTER INSERT ON users BEGIN
+    UPDATE stats SET total_users = total_users + 1 WHERE id = 1;
+END;
+
+CREATE TRIGGER IF NOT EXISTS total_users_delete AFTER DELETE ON users BEGIN
+    UPDATE stats SET total_users = total_users - 1 WHERE id = 1;
+END;
+
+-- loans
+CREATE TRIGGER IF NOT EXISTS total_loans_insert AFTER INSERT ON loans BEGIN
+    UPDATE stats SET total_loans = total_loans + 1 WHERE id = 1;
+END;
+
+CREATE TRIGGER IF NOT EXISTS total_loans_delete AFTER DELETE ON loans BEGIN
+    UPDATE stats SET total_loans = total_loans - 1 WHERE id = 1;
+    END;
+
+-- payments
+CREATE TRIGGER IF NOT EXISTS total_payments_insert AFTER INSERT ON payments BEGIN
+    UPDATE stats SET total_payments = total_payments + 1 WHERE id = 1;
+END;
+
+CREATE TRIGGER IF NOT EXISTS total_payments_delete AFTER DELETE ON payments BEGIN
+    UPDATE stats SET total_payments = total_payments - 1 WHERE id = 1;
+END;
+
+-- activity
+CREATE TRIGGER IF NOT EXISTS activity_count_insert AFTER INSERT ON activity BEGIN
+    UPDATE stats SET activity_count = activity_count + 1 WHERE id = 1;
+END;
+
+CREATE TRIGGER IF NOT EXISTS activity_count_delete AFTER DELETE ON activity BEGIN
+    UPDATE stats SET activity_count = activity_count - 1 WHERE id = 1;
+END;
+

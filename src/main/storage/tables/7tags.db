@@ -1,0 +1,19 @@
+
+
+
+create table if not exists tags (
+    id integer primary key autoincrement,
+    label text not null,
+    description text not null,
+    color text not null, 
+    icon text not null,
+    type text not null,
+    status text not null,
+    
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
+    user_id integer not null,
+    client_id integer not null,
+    FOREIGN KEY (user_id) REFERENCES users(id) on delete cascade,
+    FOREIGN KEY (client_id) REFERENCES clients(id) on delete cascade
+);

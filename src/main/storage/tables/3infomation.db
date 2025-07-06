@@ -1,0 +1,25 @@
+
+
+create table if not exists information (
+    id integer primary key autoincrement,
+    name text ,
+    lastname text ,
+    email text ,
+    phone text ,
+    gender text ,
+    birthdate text ,
+    document_number text ,
+    address text ,
+    city text ,
+    state text ,
+    zip text ,
+    country text ,
+    website text ,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
+    user_id integer ,
+    client_id integer ,
+    FOREIGN KEY (user_id) REFERENCES users(id) on delete cascade,
+    FOREIGN KEY (client_id) REFERENCES clients(id) on delete cascade
+);
+

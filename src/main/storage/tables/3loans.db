@@ -1,0 +1,34 @@
+
+
+create table if not exists loans (
+    id integer primary key autoincrement,
+    label text not null,
+    description text not null,
+    client_id integer not null,
+    
+    amount real not null,
+    total_amount real not null,
+    interest_amount real not null,
+    status text not null,
+    type text not null,
+    term integer not null,
+    interest_rate real not null,
+    disbursement_date date not null,
+    user_id integer not null,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
+    purpose text not null,
+    interest_type text not null,
+    paid_amount real not null,
+    left_amount real not null,
+    FOREIGN KEY (user_id) REFERENCES users(id) on delete cascade,
+    FOREIGN KEY (client_id) REFERENCES clients(id) on delete cascade
+
+
+    );
+
+
+
+
+
+

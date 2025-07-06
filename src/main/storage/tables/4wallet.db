@@ -1,0 +1,16 @@
+
+
+create table if not exists wallet (
+    id integer primary key autoincrement,
+    label text not null,
+    description text not null,
+    cbu text not null,
+    alias text not null,
+    client_id integer not null,
+    user_id integer not null,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
+    FOREIGN KEY (user_id) REFERENCES users(id) on delete cascade,
+    FOREIGN KEY (client_id) REFERENCES clients(id) on delete cascade
+);
+

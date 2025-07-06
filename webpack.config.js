@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
 
 module.exports = {
   // Modo de desarrollo - puedes cambiarlo a 'production' para producción
@@ -54,8 +55,29 @@ module.exports = {
               importLoaders: 1
             }
           },
-          'postcss-loader']
+          'postcss-loader'],
+          exclude: /node_modules\/(?!(flatpickr)\/).*/,
+
       },
+     /*  {
+        test: /\.svg$/i,
+        oneOf: [
+          // Cuando importas con ?react
+          {
+            resourceQuery: /react/, // el ?react
+            use: [
+              {
+                loader: '@svgr/webpack',
+                options: { icon: true }
+              }
+            ]
+          },
+          // El resto de SVG → como asset url
+          {
+            type: 'asset',
+          },
+        ],
+      }, */
       // Regla para imágenes
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
@@ -70,10 +92,32 @@ module.exports = {
   },
 
   // Plugins
-  plugins: [
+   plugins: [
     new HtmlWebpackPlugin({
       template: './src/renderer/index.html', // Ruta a tu archivo HTML template
       filename: 'index.html'
-    })
+    }),
+     new webpack.IgnorePlugin({
+      resourceRegExp: /typescript\/lib\/typescript\.js/,
+      contextRegExp: /node_modules/,
+    }), 
+    new webpack.DefinePlugin({
+      'process.env.JWT_SECRET': JSON.stringify(process.env.JWT_SECRET || 'prestaweb-secret-key'),
+      'process.env.REACT_APP_SOCKET_URL': JSON.stringify(process.env.REACT_APP_SOCKET_URL || 'http://localhost:4000'),
+      'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || 'http://localhost:4000'),
+      'process.env.REACT_APP_IS_ELECTRON': JSON.stringify(process.env.REACT_APP_IS_ELECTRON || false),
+      'process.env.REACT_APP_IS_WEB': JSON.stringify(process.env.REACT_APP_IS_WEB || true),
+      'process.env.REACT_APP_IS_MOBILE': JSON.stringify(process.env.REACT_APP_IS_MOBILE || false),
+      'process.env.REACT_APP_IS_DESKTOP': JSON.stringify(process.env.REACT_APP_IS_DESKTOP || false),
+      'process.env.REACT_APP_IS_TABLET': JSON.stringify(process.env.REACT_APP_IS_TABLET || false),
+      
+    }) 
+
+  ],
+  ignoreWarnings: [
+    {
+      module: /typescript\.js/,
+      message: /Critical dependency: the request of a dependency is an expression/
+    }
   ]
 };

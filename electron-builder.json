@@ -1,36 +1,42 @@
 {
-    "appId": "com.presta.app",
-    "productName": "PrestamosApp",
-    "publish": [{
+  "appId": "com.monkeycode23.prestamos",
+  "productName": "PrestamosApp",
+  "publish": [
+    {
       "provider": "github",
       "owner": "monkeycode23",
-      "repo": "loans",
-      "releaseType": "draft" 
-    }],
-    
-    "directories": {
-      "output": "build"
-    },
-    "files": [
-        "dist/**/*",
-        "src/main/**/*",
-      "package.json",
-      "app-update.yml"
-    ],
-    "extraResources": [
-      {
-        "from": "test.db",
-        "to": "test.db"
-      }
-    ],
-    "win": {
-      "target": "portable",
-      "sign": false
-    },
-    "asar": true,
-    "asarUnpack": [
-      "node_modules/better-sqlite3/**/*"
-    ],
-    "removePackageScripts": true,
-    "buildDependenciesFromSource": false
-  }
+      "repo": "prestamos",
+      "releaseType": "release"
+     
+    }
+  ],
+  "win": {
+  "target": "nsis",
+  "sign": false,
+  "artifactName": "${productName}-Setup-${version}.${ext}"
+},
+  "directories": {
+    "output": "build"
+  },
+  "files": [
+    "dist/**/*",
+    "src/main/**/*",
+    "package.json"
+  ],
+  "extraResources": [
+    {
+      "from": "test.db",
+      "to": "test.db"
+    }
+  ],
+  "win": {
+    "target": "nsis",
+    "sign": false
+  },
+  "asar": true,
+  "asarUnpack": [
+    "node_modules/better-sqlite3/**/*"
+  ],
+  "removePackageScripts": true,
+  "buildDependenciesFromSource": false
+}

@@ -1,0 +1,34 @@
+
+
+
+create table if not exists payments (
+    id integer primary key autoincrement,
+    loan_id integer not null,
+    amount real not null,
+    total_amount real not null,
+    interest_amount real not null,
+    paid_amount real not null,
+    left_amount real not null,
+    late_days integer not null,
+    payment_date date not null,
+    
+    status text not null,
+    
+    payment_method text not null,
+    notes text not null,
+
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
+    user_id integer not null,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) on delete cascade,
+
+    FOREIGN KEY (loan_id) REFERENCES loans(id) on delete cascade
+
+
+);
+
+
+
+
+
