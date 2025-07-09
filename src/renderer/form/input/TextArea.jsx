@@ -1,5 +1,5 @@
 import React from "react";
-
+/* 
 interface TextareaProps {
   placeholder?: string; // Placeholder text
   rows?: number; // Number of rows
@@ -10,8 +10,8 @@ interface TextareaProps {
   error?: boolean; // Error state
   hint?: string; // Hint text to display
 }
-
-const TextArea: React.FC<TextareaProps> = ({
+ */
+const TextArea/* : React.FC<TextareaProps> */ = ({
   placeholder = "Enter your message", // Default placeholder
   rows = 3, // Default number of rows
   value = "", // Default value
@@ -21,7 +21,7 @@ const TextArea: React.FC<TextareaProps> = ({
   error = false, // Error state
   hint = "", // Default hint text
 }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e/* : React.ChangeEvent<HTMLTextAreaElement> */) => {
     if (onChange) {
       onChange(e.target.value);
     }

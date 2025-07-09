@@ -28,6 +28,13 @@ const useValidation = () => {
                 ? ""    
                 : params.message || "Este campo solo puede contener letras y números";
     },
+    alpha: (params) => {
+      const regex = /^[a-zA-Z]+$/;   
+        return (value) =>   
+            regex.test(value)
+                ? ""    
+                : params.message || "Este campo solo puede contener letras";
+    },
 
     numeric: (params) => {
       const regex = /^[0-9]+$/;
@@ -62,6 +69,7 @@ const useValidation = () => {
 
     customAsync: (params) => async (value) => {
       const isValid = await params.callback(value);
+      console.log(isValid)
       return isValid ? "" : params.message || "Este campo no es válido";
     },
 
@@ -108,7 +116,8 @@ const useValidation = () => {
         for (const validation of validationsConfig[key]) {
           try {
             let result;
-
+            /* console.log(inputs)
+            console.log(inputs[key]) */
             // Verificar si es función async
             const validationResult = validation(inputs[key]);
             if (validationResult instanceof Promise) {
@@ -116,7 +125,7 @@ const useValidation = () => {
             } else {
               result = validationResult;
             }
-
+            
             if (result) {
               newErrors[key] = result;
               break; // Rompe si hay error

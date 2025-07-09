@@ -8,12 +8,13 @@ import { useNavigate } from "react-router";
 
 export default function SignUp() {
 
-  const {token} = useSelector((state) => state.auth);
+  const {token,isSessionExpired} = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  
   useEffect(() => { 
 
     // Check if the user is already authenticated
-    if (token) {  
+    if (token &&  isSessionExpired) {  
       // Redirect to the dashboard if authenticated
       navigate('/'); // Redirect to the dashboard or home page
     } 

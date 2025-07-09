@@ -9,10 +9,22 @@ import { ThemeProvider } from './context/ThemeContext';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
+import { ToastContainer } from 'react-toastify';
+
+
+
 
 root.render(
     <ThemeProvider>
         <Provider store={store}>
+            <ToastContainer position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        theme="light" />
+
             <App />
         </Provider>
     </ThemeProvider>

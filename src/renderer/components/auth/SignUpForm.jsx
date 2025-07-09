@@ -5,7 +5,7 @@ import Label from "../../form/Label";
 import Input from "../../form/input/InputField";
 import Checkbox from "../../form/input/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
-import { setInputs, changeValue, setLoading, setFormName } from "../../redux/slices/formSlice";
+import { setInputs, changeValue, setLoading, setFormName,resetForm } from "../../redux/slices/formSlice";
 import useValidator from "../../hooks/useValidator"; // Assuming you have a custom hook for validation
 import User from "../../services/local/User"; // Assuming you have a User service for handling user data
 import { login } from "../../redux/slices/authSlice"; // Assuming you have an authSlice for handling authentication state
@@ -24,6 +24,7 @@ export default function SignUpForm() {
   const { validate, validations, errors } = useValidator();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate for navigation
+ 
   useEffect(() => {
     // Reset the checkbox state when the component mounts 
     if(formName != "SINGUP") {
@@ -276,7 +277,7 @@ export default function SignUpForm() {
                     type="text"
                     id="username"
                     name="username"
-                    value={inputs.username}
+                    value={inputs.username || ""}
                     onChange={(e) => dispatch(changeValue({ key: 'username', value: e.target.value }))}
                     placeholder="Enter your username"
                   />
@@ -297,7 +298,7 @@ export default function SignUpForm() {
                     id="email"
                     name="email"
                     onChange={(e) => dispatch(changeValue({ key: 'email', value: e.target.value }))}
-                    value={inputs.email}
+                    value={inputs.email || ""}
                     placeholder="Enter your email"
                   />
 
@@ -319,7 +320,7 @@ export default function SignUpForm() {
                       onChange={(e) => dispatch(changeValue({ key: 'password', value: e.target.value }))}
                       id="password"
                       name="password"
-                      value={inputs.password}
+                      value={inputs.password || ""}
                       placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
                     />
@@ -348,7 +349,7 @@ export default function SignUpForm() {
                     onChange={(e) => dispatch(changeValue({ key: 'terms', value: e }))}
                     id="terms"
                     name="terms"
-                    value={inputs.terms}
+                    value={inputs.terms || false}
                   />
                   <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
                     By creating an account means you agree to the{" "}
@@ -383,7 +384,7 @@ export default function SignUpForm() {
               <p className="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
                 Already have an account? {""}
                 <Link
-                  to="/signin"
+                  to="/auth/login"
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
                   Sign In

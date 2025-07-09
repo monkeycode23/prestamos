@@ -7,7 +7,7 @@ contextBridge.exposeInMainWorld('electron', {
         createTable: (table, columns) => ipcRenderer.invoke('database', 'createTable', table, columns),
         insert: (table, columns, values) => ipcRenderer.invoke('database', 'insert', table, columns, values),
         select: (table, query,data,options) => ipcRenderer.invoke('database', 'select', table, query, data, options),
-        update: (table, columns, values) => ipcRenderer.invoke('database', 'update', table, columns, values),
+        update: (table,query, columns, values) => ipcRenderer.invoke('database', 'update', table,query, columns, values),
         delete: (table, columns, values) => ipcRenderer.invoke('database', 'delete', table, columns, values),
         export: (filetype, filename) => ipcRenderer.invoke('database', 'export', filetype, filename),
         import: (filetype, filename) => ipcRenderer.invoke('database', 'import', filetype, filename),

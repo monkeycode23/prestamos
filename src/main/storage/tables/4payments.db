@@ -11,12 +11,9 @@ create table if not exists payments (
     left_amount real not null,
     late_days integer not null,
     payment_date date not null,
-    
     status text not null,
-    
     payment_method text not null,
     notes text not null,
-
     created_at datetime default current_timestamp,
     updated_at datetime default current_timestamp,
     user_id integer not null,

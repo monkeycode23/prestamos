@@ -21,6 +21,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fullcalendar/core": "^6.1.18",
+    "@fullcalendar/daygrid": "^6.1.18",
+    "@fullcalendar/interaction": "^6.1.18",
+    "@fullcalendar/list": "^6.1.18",
+    "@fullcalendar/react": "^6.1.18",
+    "@fullcalendar/timegrid": "^6.1.18",
     "@react-jvectormap/core": "^1.0.4",
     "@react-jvectormap/world": "^1.1.2",
     "@reduxjs/toolkit": "^2.8.2",
@@ -37,6 +43,7 @@
     "flatpickr": "^4.6.13",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.525.0",
+    "preact": "^10.26.9",
     "react": "^18.2.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^18.2.0",
@@ -46,6 +53,7 @@
     "react-redux": "^9.2.0",
     "react-router": "^7.6.3",
     "react-router-dom": "^7.6.3",
+    "react-toastify": "^11.0.5",
     "redux": "^5.0.1",
     "sqlite3": "^5.1.7",
     "tailwind-merge": "^3.3.1"

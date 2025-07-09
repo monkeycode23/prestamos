@@ -1,60 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setIsSessionExpired, setUser } from "../redux/slices/authSlice";
 
-import { useNavigate,Navigate  ,Outlet} from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { setIsSessionExpired,setUser } from "../redux/slices/authSlice";
-
+// ...existing imports...
 
 const PrivateRoute = ({ children }) => {
     const navigate = useNavigate();
-    
-    const { user,token } = useSelector((state) => state.auth);
+    const { user, token } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
-        // Check if the user is authenticated
+        console.log("PrivateRoute: token", token, "user", user);
         const checkSessionExpired = async () => {
-            // Check if the token is valid
-            const isExpired = await window.electron.token.verify(token);
-
-            
-           
-            console.log('Token verification result:', isExpired);
-            if (!isExpired) {
-                // If the token is expired, redirect to login
-                setIsSessionExpired(true);
+            if (!token) return;
+            const result = await window.electron.token.verify(token);
+            if (!result || !result.user) {
+                dispatch(setIsSessionExpired(true));
                 navigate('/auth/expired');
-
-                
+            } else {
+                dispatch(setUser(result.user));
             }
+        };
 
-             dispatch(setUser(isExpired.user))
-        };  
-
-         
-        if (!user && !token) {
-            console.log('No user');
-            navigate("/auth/login")
-        }  
-        else{
+        if (!token) {
+            navigate("/auth/login");
+        } else if (!user) {
             checkSessionExpired();
         }
+    }, [token, user, dispatch,navigate]);
 
-        
+    if (!token || !user) {
+        return <div>Cargando...</div>;
+    }
 
-       
-    }, []);
-    
-   
-    
-    if(token)
-    return (
-        <div>
-           
-            {children}
-        </div>
-    );
+    return <div>{children}</div>;
 };
 
 export default PrivateRoute;

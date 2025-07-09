@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React,{ useState } from "react";
 
 /* interface CountryCode {
   code: string;
@@ -14,12 +14,12 @@ import { useState } from "react";
 
 const PhoneInput = ({
   countries,
-  placeholder = "+1 (555) 000-0000",
+  placeholder = " (555) 000-0000",
   onChange,
   selectPosition = "start", // Default position is 'start'
 }) => {
   const [selectedCountry, setSelectedCountry] = useState("US");
-  const [phoneNumber, setPhoneNumber] = useState("+1");
+  const [phoneNumber, setPhoneNumber] = useState("+54");
 
   const countryCodes = countries.reduce(
     (acc, { code, label }) => ({ ...acc, [code]: label }),

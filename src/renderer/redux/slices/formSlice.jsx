@@ -29,7 +29,10 @@ const formSlice = createSlice({
             state.inputs = action.payload;
         },
         changeValue: (state, action) => {
+
+            console.log(action.payload)
             if (state.inputs) {
+              //  console.log("Asdasdhakjsdasd")
                 const newInputs = { ...state.inputs };
                 newInputs[action.payload.key] = action.payload.value;
                 state.inputs = newInputs;

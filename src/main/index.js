@@ -8,14 +8,21 @@ const { ipcMain } = require('electron');
 
 dotenv.config();
 
- 
-       
+  
+           
 
 /** 
  * ipcs 
  */
+
+
+/* const appStatsIpc = require('./ipc/appStatsIpc');
+ipcMain.handle('files', appStatsIpc);
+   
+ */
     
 const appStatsIpc = require('./ipc/appStatsIpc');
+
 ipcMain.handle('appStats', appStatsIpc);
    
  
@@ -24,7 +31,7 @@ const checkUpdatesIpc = require('./ipc/checkUpdatesIpc');
 ipcMain.handle('checkUpdates', checkUpdatesIpc);
  
 /**
- * database ipc
+ * database ipc 
  */
 
   

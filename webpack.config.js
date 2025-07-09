@@ -88,7 +88,12 @@ module.exports = {
 
   // Extensiones que webpack debe resolver automáticamente
   resolve: {
-    extensions: ['.js', '.jsx','.ts', '.tsx']
+    extensions: ['.js', '.jsx','.ts', '.tsx'],
+   alias: {
+    react: path.resolve(__dirname, 'node_modules/react'),
+    'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+    // No alias para preact
+  }
   },
 
   // Plugins

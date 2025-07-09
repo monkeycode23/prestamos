@@ -1,4 +1,4 @@
-interface RadioProps {
+/* interface RadioProps {
   id: string; // Unique ID for the radio button
   name: string; // Group name for the radio button
   value: string; // Value of the radio button
@@ -7,8 +7,12 @@ interface RadioProps {
   onChange: (value: string) => void; // Handler for when the radio button is toggled
   className?: string; // Optional custom classes for styling
 }
+ */
 
-const RadioSm: React.FC<RadioProps> = ({
+import React from "react";
+
+
+const RadioSm/* : React.FC<RadioProps> */ = ({
   id,
   name,
   value,

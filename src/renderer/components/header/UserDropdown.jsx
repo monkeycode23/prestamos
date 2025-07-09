@@ -14,7 +14,7 @@ export default function UserDropdown() {
     const auth = useSelector((state)=>state.auth)
 
 
-  console.log(auth,"authslice")
+  console.log(user.avatar,"authslice")
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -31,8 +31,9 @@ export default function UserDropdown() {
         className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src={owner} alt="User" />
+          <img src={user.avatar.src || owner} alt="User" />
         </span>
+
 
         <span className="block mr-1 font-medium text-theme-sm">{user?.username || "usuario"}</span>
         <svg

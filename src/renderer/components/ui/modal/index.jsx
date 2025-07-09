@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
-
+import { useSelector,useDispatch } from "react-redux";
+import {closeModal} from '../../../redux/slices/modalSlice'
 /* interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -9,20 +10,24 @@ import React, { useRef, useEffect } from "react";
   isFullscreen?: boolean; // Default to false for backwards compatibility
 } */
 
+
+
 export const Modal = ({
-  isOpen,
-  onClose,
+  
+  title,
   children,
   className,
   showCloseButton = true, // Default to true for backwards compatibility
   isFullscreen = false,
 }) => {
     const modalRef = useRef(null);
+  const {isOpen} = useSelector(state=>state.modal)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
-        onClose();
+        dispatch(closeModa());
       }
     };
 
@@ -33,7 +38,7 @@ export const Modal = ({
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, dispatch]);
 
   useEffect(() => {
     if (isOpen) {
@@ -58,7 +63,7 @@ export const Modal = ({
       {!isFullscreen && (
         <div
           className="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"
-          onClick={onClose}
+          onClick={(e)=>dispatch(closeModal())}
         ></div>
       )}
       <div
@@ -66,9 +71,10 @@ export const Modal = ({
         className={`${contentClasses}  ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
+        <h1 className="text-2xl font-bold">{title}</h1>
         {showCloseButton && (
           <button
-            onClick={onClose}
+            onClick={(e)=>dispatch(closeModal())}
             className="absolute right-3 top-3 z-999 flex h-9.5 w-9.5 items-center justify-center rounded-full bg-gray-100 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white sm:right-6 sm:top-6 sm:h-11 sm:w-11"
           >
             <svg

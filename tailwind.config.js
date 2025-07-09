@@ -7,6 +7,10 @@ module.exports = {
       screens: {
         '2xsm': '400px', // O el tamaño que quieras
       },
+      height: {
+        'screen-70': '70vh',
+        'screen-80': '80vh',
+      },
       zIndex: {
         1: '1',
         2: '2',

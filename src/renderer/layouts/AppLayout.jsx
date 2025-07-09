@@ -32,11 +32,11 @@ const LayoutContent= () => {
 
 const AppLayout = () => {
   return (
-     <PrivateRoute>
+    
     <SidebarProvider>
       <LayoutContent />
     </SidebarProvider>
-    </PrivateRoute>
+   
   );
 };
 

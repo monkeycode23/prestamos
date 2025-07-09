@@ -5,7 +5,7 @@ create table if not exists loans (
     label text not null,
     description text not null,
     client_id integer not null,
-    
+    first_payment_date date not null,
     amount real not null,
     total_amount real not null,
     interest_amount real not null,

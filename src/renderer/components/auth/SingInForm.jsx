@@ -129,18 +129,21 @@ export default function SignInForm() {
 
      console.log("Token generated:", token);
 
-
+     
+     const avatar = await user.getAvatar()
+    
      dispatch(login({
       user: {
-        id: user.id,  
-        username: user.username,
-        email: user.email,
-        role: user.role,
+        id: _user.id, 
+        avatar :avatar, 
+        username: _user.username,
+        email: _user.email,
+        role: _user.role,
       },
       token: token,
     })); 
 
-   setInterval(() => {
+   setTimeout(() => {
       // Redirect to the dashboard after successful signup
       setIsLoading(false);
       navigate('/');

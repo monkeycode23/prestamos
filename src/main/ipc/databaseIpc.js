@@ -5,10 +5,14 @@ const database = require('../storage/database');
 
 const db = new database();
 db.connect();
+
+
+db.deleteTable("files")
+
 db.init();
 
  
- 
+  
 
 try {
 

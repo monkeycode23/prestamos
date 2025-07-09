@@ -1,10 +1,89 @@
-import React from "react";
+import React,{useRef,useState,} from "react";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../../form/input/InputField";
 import Label from "../../form/Label";
 import Owner from "../..//images/user/owner.jpg"
+
+import { toast } from 'react-toastify';
+import { useSelector,useDispatch } from "react-redux";
+import User from "../../services/local/User";
+import { changeAvatar } from "../../redux/slices/authSlice";
+
+
+function AvatarUploader({ defaultImage }) {
+  
+  const {user} = useSelector(state=>state.auth)
+  const fileInputRef = useRef(null);
+  const [preview, setPreview] = useState(defaultImage);
+  const dispatch = useDispatch()
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange =async (e) => {
+    
+    const file = e.target.files[0];
+    
+
+      const _user = new User(user)
+
+
+      const result =await _user.changeAvatar(file)
+
+      
+      if(result.error){
+        toast.error(result.error)
+      }
+      const reader = new FileReader();
+
+        reader.onload = () => {
+          const base64 = reader.result;
+          console.log("Contenido base64:", base64);
+          delete result.file_buffer
+          result.src = base64
+          dispatch(changeAvatar({...result}))
+          setPreview(base64)
+        };
+        reader.readAsDataURL(file);
+
+    
+        toast.success("Se ha actualizado tu imagen de perfil");
+
+      /* const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result); // base64 preview
+      };
+      reader.readAsDataURL(file); */
+   
+  };
+
+  return (
+    <div
+      className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800 cursor-pointer"
+      onClick={handleImageClick}
+    >
+      <img
+        src={user.avatar.src}
+        alt="user"
+        className="object-cover w-full h-full"
+      />
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleFileChange}
+      />
+    </div>
+  );
+}
+
+
+
+
+
 export default function UserMetaCard() {
   const { isOpen, openModal, closeModal } = useModal();
   const handleSave = () => {
@@ -17,9 +96,7 @@ export default function UserMetaCard() {
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
-            <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-              <img src={Owner} alt="user" />
-            </div>
+            <AvatarUploader></AvatarUploader>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
                 Musharof Chowdhury

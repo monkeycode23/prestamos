@@ -69,13 +69,27 @@ class Database {
   createTable(table, columns) {
     this.db.exec(`CREATE TABLE IF NOT EXISTS ${table} (${columns.join(', ')})`);
   }
- 
+  
   insert(table, columns, values) {
 
+    
+
+
     try {
-         this.query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${values.map(value => `'${value}'`).join(',')})`;
-    console.log(this.query);
-    const result = this.db.prepare(this.query).run();
+         this.query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${values.map(value =>'?').join(',')})`;
+          
+          
+          const parseValues = values.map((value)=>{
+
+            if(value instanceof ArrayBuffer)  return Buffer.from(value)
+
+              return value
+
+          })
+    
+    
+    
+    const result = this.db.prepare(this.query).run(parseValues);
 
     console.log('Datos insertados:', result);
       return result;
@@ -119,10 +133,25 @@ class Database {
     return result;
   }
 
-  update(table, columns, values) {
-    this.query = `UPDATE ${table} SET ${columns.map((column, index) => `${column} = ${values[index]}`).join(', ')}`;
+  update(table, query, values) {
+
+    const {columns,where} = query
+    this.query = `UPDATE ${table} SET ${columns.map((column, index) => `${column} = ?`).join(', ')} WHERE ${where}`;
+
+
+
+      const parseValues = values.map((value)=>{
+
+            if(value instanceof ArrayBuffer)  return Buffer.from(value)
+
+              return value
+
+          })
+    
     console.log(this.query);
-    this.db.prepare(this.query).run();
+    const result = this.db.prepare(this.query).run(parseValues);
+
+    return result
   }
 
   delete(table, columns, values) {

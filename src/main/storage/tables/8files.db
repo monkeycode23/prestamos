@@ -1,0 +1,18 @@
+
+
+create table if not exists files  (
+
+     id INTEGER PRIMARY KEY AUTOINCREMENT,
+     tag TEXT default "user_avatar",
+     user_id INTEGER,
+     client_id INTEGER,
+     file_type TEXT default 'svg',
+     file_name TEXT default 'default',
+     file_buffer BLOB NOT NULL,
+     size INTEGER NOT NULL,
+     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+     FOREIGN KEY (user_id) REFERENCES users(id) on delete cascade,
+
+    FOREIGN KEY (client_id) REFERENCES clients(id) on delete cascade
+);
