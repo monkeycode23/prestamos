@@ -2,7 +2,7 @@
 import Loan from './local/Loan.js';
 import Payment from './local/Payment.js';
 
-class ClientsService {
+class PaymentsService {
 
   constructor() {
     // Aquí puedes inicializar cualquier cosa que necesites para el servicio
@@ -198,4 +198,4 @@ class ClientsService {
 }
 
 
-export default ClientsService;
+export default PaymentsService

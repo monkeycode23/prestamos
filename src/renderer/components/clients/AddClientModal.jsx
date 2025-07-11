@@ -41,7 +41,7 @@ export default function AddClientModal() {
         lastname: "",
         email: "",
         houseNumber:"",
-        houseNumber: "",
+        houseStreet: "",
         phone: "",
         gender: "",
 

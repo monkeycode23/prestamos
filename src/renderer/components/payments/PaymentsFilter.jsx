@@ -1,3 +1,8 @@
+
+
+
+
+
 import React,{useState,useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from '../../redux/slices/pagination';
@@ -14,6 +19,7 @@ import {
 
 import Checkbox from '../../form/input/Checkbox';
 import Radio from '../../form/input/Radio';
+import Pagination from '../Pagination';
 
 const cuotaEstados = ['pagadas', 'expiradas', 'pendientes', 'incompletas'];
 const estadoPrestamos =[
@@ -22,7 +28,10 @@ const estadoPrestamos =[
   "Cancelado",
   "Pendiente",
 ]
-const ClientFilter = () => {
+
+
+
+const PaymentsFilter = () => {
   const [nombre, setNombre] = useState('');
   const [filtrosVisibles, setFiltrosVisibles] = useState(false);
   const [estadoCuotasSeleccionadas, setEstadoCuotasSeleccionadas] = useState([]);
@@ -150,16 +159,10 @@ const cantidadPrestamosValues =["sin prestamos activos",1,3,5]
   };
 
   return (
-    <div className="w-full  mx-auto p-4">
+    <div className="w-full  mx-auto ">
       {/* Input + botón de filtros */}
-      <div className="flex gap-2 items-center">
-        <input
-          type="text"
-          placeholder="Buscar por nombre"
-          value={nombre}
-          onChange={handleNombreChange}
-          className="border border-gray-300 px-4 py-2 rounded-md w-full"
-        />
+      <div className="flex gap-2 items-center  justify-between">
+        
         <button
           onClick={() => setFiltrosVisibles((prev) => !prev)}
           className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
@@ -168,6 +171,8 @@ const cantidadPrestamosValues =["sin prestamos activos",1,3,5]
           <span>Filtros</span>
           <ChevronDown className="w-4 h-4" />
         </button>
+
+        <Pagination size={"sm"}></Pagination>
       </div>
 
       {/* Dropdown de filtros */}
@@ -280,4 +285,4 @@ const Tag = ({ children, onClose, color }) => {
 
 
 
-export default ClientFilter
+export default PaymentsFilter

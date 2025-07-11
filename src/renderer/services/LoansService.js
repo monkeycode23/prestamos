@@ -2,7 +2,7 @@
 import Loan from './local/Loan.js';
 import Payment from './local/Payment.js';
 
-class ClientsService {
+class LoansService {
 
   constructor() {
     // Aquí puedes inicializar cualquier cosa que necesites para el servicio
@@ -80,39 +80,19 @@ class ClientsService {
     }
   }
 
-  async getClients(filter, page = 1, limit = 5) {
+  async getClientLoans(filter, page = 1, limit = 10) {
 
-
+/* 
     const filterString = this.filters(filter)
 
     console.log("filterString", filterString)
-
-    const select = `DISTINCT clients.*,
-  -- Préstamos
-  COUNT(DISTINCT l.id) AS total_loans,
-  COUNT(DISTINCT CASE WHEN l.status = 'active' THEN l.id END) AS total_active_loans,
-  COUNT(DISTINCT CASE WHEN l.status = 'completed' THEN l.id END) AS total_completed_loans,
-  COUNT(DISTINCT CASE WHEN l.status = 'canceled' THEN l.id END) AS total_canceled_loans,
-  -- Pagos
-  COUNT(DISTINCT p.id) AS total_payments,
-  COUNT(DISTINCT CASE WHEN p.status = 'paid' THEN p.id END) AS total_paid_payments,
-  COUNT(DISTINCT CASE WHEN p.status = 'pending' THEN p.id END) AS total_pending_payments,
-  COUNT(DISTINCT CASE WHEN p.status = 'expired' THEN p.id END) AS total_expired_payments,
-  COUNT(DISTINCT CASE WHEN p.status = 'incomplete' THEN p.id END) AS total_incomplete_payments,
-  SUM(
-  CASE 
-    WHEN p.status = 'expired' THEN p.total_amount
-    WHEN p.status = 'incomplete' THEN p.left_amount
-    ELSE 0
-  END
-) AS total_debt_payments
-  
-  `;
+ */
+    const select = `loans.*`;
 
 
     const query = {
       select: select,
-      leftJoin: [
+      /* leftJoin: [
         {
           table: 'loans l ',
           on: 'clients.id = l.client_id'
@@ -121,15 +101,15 @@ class ClientsService {
           table: 'payments p',
           on: `l.id = p.loan_id`
         }
-      ],
+      ], */
       // orderBy: `${!filter.nickname ? 'clients.id DESC' : ''}`,
-      where: `${filterString}`,
-      having: `total_loans >= ${filter?.loansLen ?
+      where: `client_id= ? `,
+      /* having: `total_loans >= ${filter?.loansLen ?
         filter.loansLen == "sin prestamos activos" ? 0 : filter.loansLen : 0}`,
       limit: limit,
       offset: ((page - 1) * limit),
-      groupBy: `clients.id`,
-      orderBy: `clients.id DESC`
+      groupBy: `clients.id`, */
+      orderBy: `loans.id DESC`
     };
 
 
@@ -167,11 +147,11 @@ class ClientsService {
     })
     await payment.insert() */
 
-    const clients = await window.electron.database.select("clients", query)
+    const loans = await window.electron.database.select("loans", query,[filter.client_id])
     //console.log(clients)
 
     // return clients
-    const totalQuery = {
+    /* const totalQuery = {
       select: `COUNT(DISTINCT clients.id) as total,COUNT(DISTINCT l.id) AS total_loans`,
       leftJoin: [
         {
@@ -185,17 +165,17 @@ class ClientsService {
       ],
       where: `${filterString}`,
       having: `total_loans >= ${filter?.loansLen ? filter.loansLen == "sin prestamos activos" ? 0 : filter.loansLen : 0}`,
-    }
+    } */
 
-    const totalClients = await window.electron.database.select("clients", totalQuery)
-    console.log("totalClients", totalClients)
+    /* const totalClients = await window.electron.database.select("clients", totalQuery)
+    console.log("totalClients", totalClients) */
 
     return {
-      clients,
-      total: totalClients ? totalClients[0].total : 0,
+      loans,
+      total:loans ? loans.length: 0 ,
     }
   }
 }
 
 
-export default ClientsService;
+export default LoansService;

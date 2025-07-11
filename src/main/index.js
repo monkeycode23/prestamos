@@ -13,13 +13,18 @@ dotenv.config();
 
 /** 
  * ipcs 
- */
+ */ 
 
-
+ 
 /* const appStatsIpc = require('./ipc/appStatsIpc');
 ipcMain.handle('files', appStatsIpc);
    
  */
+
+
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion(); // Devuelve la versión de package.json
+});
     
 const appStatsIpc = require('./ipc/appStatsIpc');
 

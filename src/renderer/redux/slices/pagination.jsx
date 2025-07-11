@@ -5,7 +5,7 @@ const initialState = {
     page:1,
     currentPage:1,
     totalPages:5,
-    limitPerPage:10,
+    limitPerPage:5,
     totalItems:0,
     filter:null
                 
@@ -19,6 +19,14 @@ const paginationSlice = createSlice({
         setPage:(state,action)=>{
 
             state.page  = action.payload
+        },
+        setTotalItems:(state,action)=>{
+            state.totalItems = action.payload
+        },
+        setLimitPerPage:(state,action)=>{
+            const {limitPerPage} = action.payload
+            state.limitPerPage = limitPerPage
+            state.totalPages = state.totalItems>limitPerPage ? Math.ceil(state.totalItems/limitPerPage):1
         },
        setPaginationData:(state,action)=>{
 
@@ -48,5 +56,5 @@ const paginationSlice = createSlice({
 
 
 
-    export const { setPage,setPaginationData,setFilter,resetFilter,resetPaginationData } = paginationSlice.actions;
+    export const { setPage,setPaginationData,setFilter,resetFilter,resetPaginationData,setTotalItems} = paginationSlice.actions;
 export default  paginationSlice.reducer;

@@ -33,37 +33,42 @@ const Step2 = ({ step }) => {
 
       const syncValidation = await validate({
         name: [
+          validations.optional(),
           validations.alpha({  message: 'Este campo debe caracteres alfabeticos' }),
 
           //validations.minLength({ min: 5, message: 'Este campo debe tener al menos 2 caracteres' }),
-          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 10 caracteres' }),
+          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 50 caracteres' }),
           //validations.alphanumeric({  message: 'Este campo debe contener numero y letras' }),
 
         ],
         lastname: [
+          validations.optional(),
           validations.alpha({  message: 'Este campo debe caracteres alfabeticos' }),
 
           //validations.minLength({ min: 5, message: 'Este campo debe tener al menos 2 caracteres' }),
-          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 10 caracteres' }),
+          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 50 caracteres' }),
           //validations.alphanumeric({  message: 'Este campo debe contener numero y letras' }),
 
         ],
-        lastname: [
-          validations.alpha({  message: 'Este campo debe caracteres alfabeticos' }),
+        houseNumber: [
+          validations.optional(),
+          validations.numeric({  message: 'Este campo debe caracteres numerico' }),
 
           //validations.minLength({ min: 5, message: 'Este campo debe tener al menos 2 caracteres' }),
-          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 10 caracteres' }),
+          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 50 caracteres' }),
           //validations.alphanumeric({  message: 'Este campo debe contener numero y letras' }),
 
         ],
-        lastname: [
-          validations.alpha({  message: 'Este campo debe caracteres alfabeticos' }),
+        houseStreet: [
+          validations.optional(),
+          validations.streeName({  message: 'Este campo debe tener solo espacios y letras' }),
 
           //validations.minLength({ min: 5, message: 'Este campo debe tener al menos 2 caracteres' }),
-          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 10 caracteres' }),
+          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 50 caracteres' }),
           //validations.alphanumeric({  message: 'Este campo debe contener numero y letras' }),
 
-        ]
+        ],
+        
       })
 
       
@@ -127,7 +132,7 @@ const Step2 = ({ step }) => {
           placeholder={"nombre del cliente"}></Input>
 
         {
-          errors.nickname ? (
+          errors.name ? (
             <span className='text-red-600'>{errors.name} </span>
           ) : ""
         }
@@ -148,7 +153,7 @@ const Step2 = ({ step }) => {
           placeholder={"apellido del cliente"}></Input>
 
         {
-          errors.nickname ? (
+          errors.houseStreet ? (
             <span className='text-red-600'>{errors.lastname} </span>
           ) : ""
         }
@@ -165,19 +170,19 @@ const Step2 = ({ step }) => {
 
             </Label>
             <Input type='text'
-              error={errors.streetName || false}
-              value={inputs.streetName || ''}
+              error={errors.houseStreet || false}
+              value={inputs.houseStreet || ''}
               onChange={(e) => {
                 /*   console.log(e.target.value)
                   console.log(inputs) */
-                dispatch(changeValue({ key: 'streetName', value: e.target.value }))
+                dispatch(changeValue({ key: 'houseStreet', value: e.target.value }))
               }}
               placeholder={"calle del domicilio"}></Input>
           </div>
 
           {
             errors.nickname ? (
-              <span className='text-red-600'>{errors.streetName} </span>
+              <span className='text-red-600'>{errors.houseStreet} </span>
             ) : ""
           }
         </div>
@@ -198,7 +203,7 @@ const Step2 = ({ step }) => {
           </div>
 
           {
-            errors.nickname ? (
+            errors.houseNumber ? (
               <span className='text-red-600'>{errors.houseNumber} </span>
             ) : ""
           }

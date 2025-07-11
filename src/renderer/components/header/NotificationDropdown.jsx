@@ -1,11 +1,47 @@
-import React,{ useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Link } from "react-router";
-
+import { setIsUpdateAvailable,setLatestVersion } from "../../redux/slices/appSlice";
+import { useDispatch } from "react-redux";
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
+  const [systemNotifications, setSystemNotifications] = useState([]);
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    
+
+    async function fetchNotifications() {
+      // Simulate fetching notifications from an API or database
+    await window.electron.messages.onMessage((type,title,data)=>{
+      console.log("Notification received:", type, title, data);
+      if (type === 'info' || type === 'success' || type === 'error') {
+        //setSystemNotifications((prev) => [...prev, { type, title, data }]);
+        //setNotifying(true);
+        switch (title) {
+          case "actualización disponible":
+            
+          dispatch(setIsUpdateAvailable(true));
+            dispatch(setLatestVersion(data.tag));
+          setSystemNotifications((prev) => [...prev, { type, title,content:"Descarga y actualiza a a ultima version !"+data.tag }]);
+            break;
+        
+          default:
+            break;
+        }
+      }
+    })
+    await window.electron.updater.checkForUpdates()
+   // console.log()
+    }
+
+    fetchNotifications();
+  }, []);
+
+  // Function to toggle the dropdown  
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -78,30 +114,32 @@ export default function NotificationDropdown() {
         </div>
         <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
           {/* Example notification items */}
-          <li>
+          {
+            systemNotifications.map((notification, index) => (
+              <li>
             <DropdownItem
               onItemClick={closeDropdown}
               className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
             >
               <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
-                <img
+                {/* <img
                   width={40}
                   height={40}
                   src="/images/user/user-02.jpg"
                   alt="User"
                   className="w-full overflow-hidden rounded-full"
-                />
+                /> */}
                 <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
               </span>
 
               <span className="block">
                 <span className="mb-1.5 block  text-theme-sm text-gray-500 dark:text-gray-400 space-x-1">
                   <span className="font-medium text-gray-800 dark:text-white/90">
-                    Terry Franci
+                    {notification.title}
                   </span>
-                  <span> requests permission to change</span>
+                  <span> {notification.content}</span>
                   <span className="font-medium text-gray-800 dark:text-white/90">
-                    Project - Nganter App
+                   {/*  Project - Nganter App */}
                   </span>
                 </span>
 
@@ -113,7 +151,9 @@ export default function NotificationDropdown() {
               </span>
             </DropdownItem>
           </li>
-
+            ))
+          }
+{/* 
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
@@ -365,7 +405,7 @@ export default function NotificationDropdown() {
                 </span>
               </span>
             </DropdownItem>
-          </li>
+          </li> */}
           {/* Add more items as needed */}
         </ul>
         <Link

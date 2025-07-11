@@ -131,6 +131,7 @@ export default function SignInForm() {
 
      
      const avatar = await user.getAvatar()
+     console.log("Avatar URL:", avatar);
     
      dispatch(login({
       user: {

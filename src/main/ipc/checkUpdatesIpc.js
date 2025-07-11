@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const logger = require('../logger');
 const { autoUpdater } = require('electron-updater');
-
+ 
    
 function checkForUpdates(event, action, data) {
 
@@ -12,38 +12,39 @@ function checkForUpdates(event, action, data) {
     autoUpdater.autoDownload = false;
     autoUpdater.autoInstallOnAppQuit = false;
 
-    const win = BrowserWindow.getFocusedWindow();
+    const webContents = event.sender
+    
 
     autoUpdater.on('update-not-available', (info) => {
       console.log("update-not-available", info);
       //win.webContents.send('messages', 'info', `No hay actualizaciones disponibles ${JSON.stringify(info)}`);
-      win.webContents.send('messages', 'info', `No hay actualizaciones disponibles`, info);
+      webContents.send('messages', 'info', `No hay actualizaciones disponibles`, info);
     });
-
+ 
     autoUpdater.on('checking-for-update', () => {
       console.log("checking-for-update");
-      win.webContents.send('messages', 'info', 'Verificando actualizaciones');
+      webContents.send('messages', 'info', 'Verificando actualizaciones');
     });
 
     autoUpdater.on('update-available', (info) => {
       console.log("update-available", info);
       //win.webContents.send('messages', 'success', `actualización disponible ${JSON.stringify(info)}`);
-      win.webContents.send('messages', 'success', `actualización disponible`, info);
-      win.webContents.send('messages', 'success', `actualización disponible`, info);
+//win.webContents.send('messages', 'info', `actualización disponible`, info);
+      webContents.send('messages', 'info', `actualización disponible`, info);
     }); 
 
     autoUpdater.on('update-downloaded', (info) => {
 
       console.log("update-downloaded", info);
       //win.webContents.send('messages', 'success', `actualización descargada ${JSON.stringify(info)}`);
-      win.webContents.send('messages', 'success', `actualización descargada`,info);
+      webContents.send('messages', 'success', `actualización descargada`,info);
 
       // autoUpdater.quitAndInstall();
     });
  
     autoUpdater.on('download-progress', (progress) => {
       console.log(`📥 Descargando: ${progress.percent.toFixed(2)}%`);
-      win.webContents.send('messages', 'info', `Descargando actualización`,  progress.percent.toFixed(2));
+      webContents.send('messages', 'info', `Descargando actualización`,  progress.percent.toFixed(2));
     });
     /* autoUpdater.on('download-progress', (progress, total, bytesPerSecond, percent) => {
       console.log("download-progress", progress, total, bytesPerSecond, percent);
@@ -52,7 +53,7 @@ function checkForUpdates(event, action, data) {
 
     autoUpdater.on('error', (err) => {
       console.log(err);
-      win.webContents.send('messages', 'error', `error ${JSON.stringify(err)}`);
+      webContents.send('messages', 'error', `error ${JSON.stringify(err)}`);
     });
     // win.webContents.send('messages', 'info', 'Verificando actualizaciones');
 
@@ -76,7 +77,7 @@ function checkForUpdates(event, action, data) {
     //autoUpdater.checkForUpdatesAndNotify();
 
   } catch (error) {
-    win.webContents.send('messages', 'error', error.message);
+    webContents.send('messages', 'error', error.message);
   }
 }
 

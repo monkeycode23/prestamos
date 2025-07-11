@@ -1,8 +1,12 @@
 const { contextBridge, ipcRenderer } = require('electron');
  
-   
-    
+     
+      
 contextBridge.exposeInMainWorld('electron', {
+    app:{
+        getVersion: () => ipcRenderer.invoke('get-app-version'),
+        getAppStats: (action) => ipcRenderer.invoke('appStats', action),
+    },
     database: {
         createTable: (table, columns) => ipcRenderer.invoke('database', 'createTable', table, columns),
         insert: (table, columns, values) => ipcRenderer.invoke('database', 'insert', table, columns, values),
@@ -14,14 +18,14 @@ contextBridge.exposeInMainWorld('electron', {
         backup: (filename) => ipcRenderer.invoke('database', 'backup', filename),
         restore: (filename) => ipcRenderer.invoke('database', 'restore', filename),
         
-    },
+    }, 
 
     token:{
         generate: (user,expired) => ipcRenderer.invoke('token', 'generate', user,expired),
         verify: (token) => ipcRenderer.invoke('token', 'verify', token),
         delete: (token) => ipcRenderer.invoke('token', 'delete', token),
- 
-    },
+  
+    }, 
     password:{
         hash: (password) => ipcRenderer.invoke('password', 'hash', password),
         verify: (password, hash) => ipcRenderer.invoke('password', 'verify', password, hash),

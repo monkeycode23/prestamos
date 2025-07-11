@@ -6,9 +6,8 @@ const database = require('../storage/database');
 const db = new database();
 db.connect();
 
-
-db.deleteTable("files")
-
+db.deleteTable('loans')
+db.deleteTable('payments')
 db.init();
 
  
@@ -29,13 +28,14 @@ try {
 
 function databaseIpc(event,action,table,query,data,options) {
 
-    const win = BrowserWindow.getFocusedWindow();
+      const winWebContents = event.sender; // 👈 Este NUNCA es null si vino del renderer
+
 
     try {
         switch (action) {
             case 'createTable':
            return     db.createTable(query, data);
-                win.webContents.send('messages', 'success', 'Table created');
+                winWebContents.send('messages', 'success', 'Table created');
                 break;
             case 'insert':
               return  db.insert(table,query, data);
@@ -61,9 +61,9 @@ function databaseIpc(event,action,table,query,data,options) {
                 
         }
 
-        win.webContents.send('messages', 'success', 'Database operation successful');
+       winWebContents.send('messages', 'success', 'Database operation successful');
     } catch (error) {
-        win.webContents.send('messages', 'error', error.message);
+        winWebContents.send('messages', 'error', error.message);
     }
    
 

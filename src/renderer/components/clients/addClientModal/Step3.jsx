@@ -29,8 +29,17 @@ const Step3 = ({ step }) => {
     registerOnNext(async () => {
 
       const syncValidation = await validate({
-        nickname: [
-          validations.required({ message: "Este campo es requerido" }),
+        email: [
+          validations.optional(),
+          validations.email({ message: 'El email no es válido' }),
+          validations.minLength({ min: 5, message: 'Este campo debe tener al menos 5 caracteres' }),
+          validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 10 caracteres' }),
+          //validations.alphanumeric({  message: 'Este campo debe contener numero y letras' }),
+
+        ],
+         phone: [
+          validations.optional(),
+          validations.phoneNumber({ message: 'El número de teléfono no es válido' }),
           validations.minLength({ min: 5, message: 'Este campo debe tener al menos 5 caracteres' }),
           validations.maxLength({ max: 50, message: 'Este campo debe tener menos de 10 caracteres' }),
           //validations.alphanumeric({  message: 'Este campo debe contener numero y letras' }),
@@ -129,7 +138,7 @@ const Step3 = ({ step }) => {
           </Label>
           <Input
             type='text'
-            placeholder={"+54-3464-123456"}
+            placeholder={"1111 111111"}
             error={errors.phone || false}
             value={inputs.phone || ''}
             onChange={(e) => {
@@ -140,7 +149,7 @@ const Step3 = ({ step }) => {
           />
 
           {
-            errors.nickname ? (
+            errors.phone ? (
               <span className='text-red-600'>{errors.phone} </span>
             ) : ""
           }

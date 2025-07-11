@@ -3,6 +3,7 @@ const path = require('path');
 const app = require('electron').app;
 const logger = require('../logger');
 const fs = require('fs');
+const { isArray } = require('util');
 
  
  
@@ -103,15 +104,47 @@ class Database {
  
   }
 
+  joins(query){
+    let joinStr = '';
+    if(query.join) {
+      if(Array.isArray(query.join)) {
+        query.join.forEach(join => {
+          joinStr += `INNER JOIN ${join.table} ON ${join.on} `;
+        });
+      }else{
+        joinStr += `INNER JOIN ${query.join} ON ${query.on} `;  
+      }
+    }
+    if(query.leftJoin) {
+      if(Array.isArray(query.leftJoin)) {
+        query.leftJoin.forEach(leftJoin => {
+          joinStr += `LEFT JOIN ${leftJoin.table} ON ${leftJoin.on} `;
+        }); 
+      }else{
+        joinStr += `LEFT JOIN ${query.leftJoin} ON ${query.on} `;
+      
+      }
+    }
+    if(query.rightJoin) {
+      if(Array.isArray(query.rightJoin)) {
+        query.rightJoin.forEach(rightJoin => {
+          joinStr += `RIGHT JOIN ${rightJoin.table} ON ${rightJoin.on} `;
+        }); 
+      }else{
+        joinStr += `RIGHT JOIN ${query.rightJoin} ON ${query.on} `; 
+      }
+
+    }
+    return joinStr;
+  }
+
   select(table,query,data=[],options={}) {
 
     options.one = options.one || false;
 
 
     const sql = `SELECT ${query.select || '*'} FROM ${table} 
-    ${query.join ? `INNER JOIN ${query.join}` : ''}
-    ${query.lefftJoin ? `LEFT JOIN ${query.join}` : ''}
-    ${query.Rightjoin ? `RIGHT JOIN ${query.join}` : ''}
+    ${this.joins(query)}
     ${query.where ? `WHERE ${query.where}` : ''}
     ${query.groupBy ? `GROUP BY ${query.groupBy}` : ''}
      ${query.having ? `HAVING ${query.having}` : ''} 

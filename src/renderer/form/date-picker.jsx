@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import React,{ useEffect } from "react";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.css";
 import Label from "./Label";
-import { CalendarIcon } from "lucide-react";
+import { Calendar as CalenderIcon } from "lucide-react";
+import Input from "./input/InputField";
 //import Hook = flatpickr.Options.Hook;
 //import DateOption = flatpickr.Options.DateOption;
 
@@ -26,11 +27,13 @@ export default function DatePicker({
   useEffect(() => {
     const flatPickr = flatpickr(`#${id}`, {
       mode: mode || "single",
-      static: true,
+     // static: true,
       monthSelectorType: "static",
       dateFormat: "Y-m-d",
       defaultDate,
       onChange,
+        appendTo: document.body, // 👈 montado fuera del div con overflow
+
     });
 
     return () => {
@@ -42,18 +45,23 @@ export default function DatePicker({
 
   return (
     <div>
-      {label && <Label htmlFor={id}>{label}</Label>}
+     {/*  {label && <Label htmlFor={id}>{label}</Label>} */}
 
       <div className="relative">
-        <input
-          id={id}
-          placeholder={placeholder}
-          className="h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30  bg-transparent text-gray-800 border-gray-300 focus:border-brand-300 focus:ring-brand-500/20 dark:border-gray-700  dark:focus:border-brand-800"
-        />
 
-        <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2 dark:text-gray-400">
-          <CalenderIcon className="size-6" />
-        </span>
+        <Label>{label}</Label>
+                    <div className="relative">
+                      <Input
+                      id={id}
+                        placeholder={placeholder}
+                        
+                        className="pl-[62px]"
+                      />
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                        <CalenderIcon className="size-6" />
+                      </span>
+                    </div>
+       
       </div>
     </div>
   );

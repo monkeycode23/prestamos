@@ -15,13 +15,14 @@ import {closeModal} from '../../../redux/slices/modalSlice'
 export const Modal = ({
   
   title,
+  name,
   children,
   className,
   showCloseButton = true, // Default to true for backwards compatibility
   isFullscreen = false,
 }) => {
     const modalRef = useRef(null);
-  const {isOpen} = useSelector(state=>state.modal)
+  const {isOpen,modalName} = useSelector(state=>state.modal)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -55,14 +56,14 @@ export const Modal = ({
   if (!isOpen) return null;
 
   const contentClasses = isFullscreen
-    ? "w-full h-full"
-    : "relative w-full rounded-3xl bg-white  dark:bg-gray-900";
+    ? "w-full "
+    : "relative h-auto w-full rounded-3xl bg-white  dark:bg-gray-900";
 
-  return (
-    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto modal z-99999">
+    if(name==modalName) return  (
+    <div className="fixed inset-0 flex items-center justify-center overflow-y-auto  overflow-x-visible modal z-99999">
       {!isFullscreen && (
         <div
-          className="fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"
+          className="fixed inset-0 h-auto w-full bg-gray-400/50 backdrop-blur-[32px]"
           onClick={(e)=>dispatch(closeModal())}
         ></div>
       )}

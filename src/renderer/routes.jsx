@@ -51,6 +51,7 @@ import Expired from './pages/Expired';
 import Signout from './components/Singout'
 import UserProfiles from './pages/Profile'
 import Clients from './pages/Clients'
+import ClientPage from './pages/ClientPage';
 import Calendar from './pages/Calendar'
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './pages/NotFound';
@@ -58,6 +59,9 @@ import {
   createHashRouter,
   RouterProvider,
 } from 'react-router-dom';
+
+import { clientsLoader } from './pages/Clients';
+//import { cli } from 'webpack';
 
 // Puedes definir tus rutas con loader aquí
 const router = createHashRouter([
@@ -70,6 +74,7 @@ const router = createHashRouter([
         element: <Dashboard />,
         loader: async () => {
           //const data = await fetch('/api/dashboard-data');
+          
           return {}
         },
       },
@@ -78,6 +83,7 @@ const router = createHashRouter([
         element: <Dashboard />,
         loader: async () => {
           //const data = await fetch('/api/dashboard-data');
+          
           return {}
         },
       },
@@ -92,10 +98,13 @@ const router = createHashRouter([
       {
         path: 'clients',
         element: <Clients />,
-        loader: async () => {
-          //const res = await fetch('/api/clients');
-          return {}
-        },
+        loader: clientsLoader,
+      },
+
+      {
+        path: 'clients/:id',
+        element: <ClientPage />,
+        loader: clientsLoader,
       },
       {
         path: 'profile',
@@ -115,6 +124,10 @@ const router = createHashRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'logout',
+        element: <Signout />,
       },
       {
         path: 'register',

@@ -3,6 +3,7 @@
 
 create table if not exists payments (
     id integer primary key autoincrement,
+    label text not null,
     loan_id integer not null,
     amount real not null,
     total_amount real not null,

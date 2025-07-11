@@ -1,24 +1,70 @@
 import React, { useEffect } from "react";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 //import PageMeta from "../components/common/PageMeta";
-import {
-  ArrowDown as ArrowDownIcon,    // para ArrowDownIcon
-  ArrowUp as ArrowUpIcon,      // para ArrowUpIcon
-  Box as BoxIconLine,         // para BoxIconLine (no hay BoxIconLine exacto, pero Box es similar)
-  Users as GroupIcon,        // para GroupIcon (en lucide se llama Users)
-} from "lucide-react";
 
-import Badge from "../components/ui/badge/Badge";
 import { useSelector } from "react-redux";
 import { useModal } from "../hooks/useModal";
 
-import { setPaginationData } from "../redux/slices/pagination"
+import { setPaginationData,setTotalItems } from "../redux/slices/pagination"
 import AddClientModal from "../components/clients/AddClientModal";
 import ClientsList from "../components/clients/ClientsList"
+import ClientsService from "../services/ClientsService";
+import LoansService from "../services/LoansService";
+import { useLoaderData } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setClients } from "../redux/slices/clientsSlice";
+import {setLoans} from '../redux/slices/loansSlice'
+
+export const clientsLoader= async () => {
+    
+   /*  try {
+    const clientsService = new ClientsService();
+    const clients = await clientsService.getClients();
+    
+    return clients
+    } catch (error) {
+      return []
+    } */
+     
+    return {}
+}
+
 
 export default function Clients() {
 
+
+  const data = useLoaderData();
+  const dispatch = useDispatch();
+  const { clients } = useSelector(state => state.clients);
         const { isOpen, openModal, closeModal } = useModal();
+  const pagination = useSelector(state => state.pagination);
+  
+  
+  useEffect(() => {
+    
+    async function fetchClients() { 
+      try {
+
+        //console.log("pagination", pagination)
+        const clientsService = new ClientsService();
+        const clientsData = await clientsService.getClients(pagination.filter,pagination.page, pagination.limitPerPage);
+        
+        dispatch(setClients(clientsData.clients || []));
+        dispatch(setTotalItems(clientsData.total || 0));
+       // dispatch(setPaginationData(clientsData.paginationData));
+
+      } catch (error) {
+        console.error("Error fetching clients:", error);
+      }
+    }
+
+    fetchClients();
+
+  }, [data, dispatch,pagination.page,pagination.filter]);
+
+
+
+
   
 
   useEffect(() => {

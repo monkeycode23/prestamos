@@ -13,7 +13,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    clean: true // Limpia la carpeta dist antes de cada build
+    clean: true, // Limpia la carpeta dist antes de cada build
+     pathinfo: true // 👈 ayuda a depurar
   },
 
   // Configuración del servidor de desarrollo
@@ -41,7 +42,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+             sourceMaps: true, // 👈 asegurás que genere maps
           }
         }
       },
@@ -124,5 +126,7 @@ module.exports = {
       module: /typescript\.js/,
       message: /Critical dependency: the request of a dependency is an expression/
     }
-  ]
+  ],
+   devtool: 'eval-source-map'
+
 };

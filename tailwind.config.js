@@ -18,6 +18,7 @@ module.exports = {
         4: '4',
         5: '5',
         99999: '99999', // Asegúrate de que este valor sea mayor que el de tu botón
+        999999:"999999"
       },
       fontFamily: {
         outfit: ['Outfit', 'sans-serif'],

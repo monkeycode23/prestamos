@@ -65,7 +65,7 @@ function AvatarUploader({ defaultImage }) {
       onClick={handleImageClick}
     >
       <img
-        src={user.avatar.src}
+        src={user?.avatar?.src || Owner}
         alt="user"
         className="object-cover w-full h-full"
       />

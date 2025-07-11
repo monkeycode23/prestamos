@@ -100,6 +100,8 @@ class Client {
 
             const access_code = Math.floor(Math.random() * 90000) + 10000;
 
+            console.log("access_code", access_code)
+            
             const result = await window.electron.database.select('clients', {
                 where: `access_code = ?`,
             },
@@ -107,7 +109,9 @@ class Client {
                 { one: true }// Pass the email as a parameter
             );
 
-            if (!Object.keys(result)) {
+            console.log('Access code existence check result:', result);
+
+            if (!result) {
 
                 numero = access_code
                 isUnique = true
@@ -124,33 +128,40 @@ class Client {
         try {
             // Check if username and email are provided
             // If not, log an error and return
-            if (!this.username || !this.email) {
+         /*    if (!this.username || !this.email) {
                 console.error('Username and email are required to insert a user.');
                 return;
             }
-
-            const access_code = this.generateAccessCode()
+ */
+            const access_code =await this.generateAccessCode()
 
             //TODO: save user in the database
-            const result = await window.electron.database.insert('clients', ['nickname', 'access_code'], [
-                this.nickname, access_code])
+            console.log("access_code", access_code,this.nickname) 
 
-            this.id = result.lastInsertRowid
 
-            const clientInfo = this.getClientOb()
+
+         const result = await window.electron.database.insert('clients', ['nickname', 'access_code',"user_id"], [
+                this.nickname, access_code,this.user_id])
+
+                console.log('Client inserted successfully:', result);
+         this.id = result.lastInsertRowid  
+
+         const clientInfo = this.getClientOb()
             delete clientInfo.id
             delete clientInfo.nickname
             delete clientInfo.created_at
             delete clientInfo.updated_at
             delete clientInfo.access_code
-
+            
+            delete clientInfo.user_id
+            clientInfo.client_id = this.id // Add the client_id to the information object
             //TODO: save  the user information
-            await window.electron.database.insert('information', Object.keys(clientInfo), Object.values(clientInfo))
+           console.log( "information data", await window.electron.database.insert('information', Object.keys(clientInfo), Object.values(clientInfo)))
 
 
             console.log('Clientinserted successfully:', result);
 
-            this.id = result.lastInsertRowid; // Assuming the database returns the last inserted ID
+           // this.id = result.lastInsertRowid;  // Assuming the database returns the last inserted ID */
 
         } catch (error) {
             console.error('Error inserting client:', error);
